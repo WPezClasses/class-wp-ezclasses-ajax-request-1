@@ -125,11 +125,11 @@ if ( ! class_exists('Class_WP_ezClasses_Ajax_Request_1') ) {
                 'wp_ajax_nopriv_active'     => true,
                 'wp_ajax_nopriv_method'     => 'ajax_demo_method',      // obviously you'll have to code this method. this is where your server side magic happens
 
-                'ajax_before'               => 'beforeAjax',            // name of the js function to call prior to making a request. returns a bool for whether the request should continue or not
-                'ajax_always'               => 'alwaysAjax',
-                'ajax_done_true'            => 'doneAjaxTrue',
-                'ajax_done_false'           => 'doneAjaxFalse',
-                'ajax_fail'                 => 'failAjax'
+                'ajax_before'               => 'ezAjaxBefore',            // name of the js function to call prior to making a request. returns a bool for whether the request should continue or not
+                'ajax_always'               => 'ezAjaxAlways',
+                'ajax_done_true'            => 'ezAjaxDoneTrue',
+                'ajax_done_false'           => 'ezAjaxDone',
+                'ajax_fail'                 => 'ezAjaxFail'
 
             );
             return $arr_todo;
@@ -163,6 +163,7 @@ if ( ! class_exists('Class_WP_ezClasses_Ajax_Request_1') ) {
                 'my_js_handle'              => 'TODO-MY-JS-HANDLE',     // this should match your ajax-setup-1
 
                 'wp_localize_name'          => 'ajaxTest',              // in your markup data-{ ajax-setup-1 > data_wp_localize_name} = this value. the js looks at this data attribute and then uses that wp_localize name
+                'args'                      => array(),
 
                 'nonce_slug'                => 'ajax-request-1-nonce',  //
 
@@ -177,15 +178,17 @@ if ( ! class_exists('Class_WP_ezClasses_Ajax_Request_1') ) {
                 'wp_ajax_nopriv_method'     => 'ajax_demo_method',      // obviously you'll have to code this method. this is where your server side magic happens
                 // -------
 
-                'ajax_before'                       => 'beforeAjax',            // name of the function to call prior to making a request. returns a bool for whether the request should continue or not
+                'ajax_before'                       => 'ezAjaxBefore',            // name of the function to call prior to making a request. returns a bool for whether the request should continue or not
                 'ajax_before_bool_default'          => true,                    // if the ajax_before() function is undefined, what is the default for continuing to do the request?
-                'ajax_always'                       => 'alwaysAjax',
+                'ajax_before_false'                 => 'ezAjaxBeforeFalse',        // if ajax_before's function returns's false we skip the Ajax return but then still do this function
+                'ajax_always'                       => 'ezAjaxAlways',
                 'ajax_done_bool_default'            => false,
-                'ajax_done_true'                    => 'doneAjaxTrue',
-                'ajax_done_false'                   => 'doneAjaxFalse',
-                'ajax_fail'                         => 'failAjax',
+                'ajax_done'                         => 'ezAjaxDone',
+                'ajax_done_true'                    => 'ezAjaxDoneTrue',
+                'ajax_done_false'                   => 'ezAjaxDoneFalse',
+                'ajax_fail'                         => 'ezAjaxFail',
 
-                'ajax_search_empty'                 => 'searchEmptyAjax',
+                'ajax_search_empty'                 => 'ezAjaxSearchEmpty',
                 'search_keyup_timeout_duration'     => 1500,                    // used only for search
 
                 // ------
@@ -212,6 +215,7 @@ if ( ! class_exists('Class_WP_ezClasses_Ajax_Request_1') ) {
 
                 'ajax_before'                       => $arr_init['ajax_before'],
                 'ajax_before_bool_default'          => $arr_init['ajax_before_bool_default'],
+                'ajax_before_false'                 => $arr_init['ajax_before_false'],
                 'ajax_always'                       => $arr_init['ajax_always'],
                 'ajax_done_bool_default'            => $arr_init['ajax_done_bool_default'],
                 'ajax_done_true'                    => $arr_init['ajax_done_true'],
@@ -220,6 +224,8 @@ if ( ! class_exists('Class_WP_ezClasses_Ajax_Request_1') ) {
                 // search specific
                 'ajax_search_empty'                 => $arr_init['ajax_search_empty'],
                 'search_keyup_timeout_duration'     => $arr_init['search_keyup_timeout_duration'],
+
+                'args'                              => $arr_init['args'], // along with all the other standard args here, this is your open-ended catchall.
 
                 'ajax_url'                  => $arr_init['ajax_url'],
                 'ajax_type'                 => $arr_init['ajax_type'],
